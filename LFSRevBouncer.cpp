@@ -62,7 +62,7 @@ void read( uint64_t addr, T * out ) {
 }
 template <typename T>
 T read( uint64_t addr ) {
-  T B { };
+  T B {0};
   auto ret = rpc( proc, reinterpret_cast< void * >( addr ), &B, sizeof( T ), 0 );
   if( ret == 0 ) {
     log( "read status:" << ret );
@@ -114,7 +114,6 @@ int main() {
   e2->dwSize = sizeof( MODULEENTRY32 );
   uint64_t base = 0;
   uint64_t size = 0;
-  //std::cout << std::dec;
   while( Module32Next( s2, e2 ) ) {
     if( wcscmp( e2->szModule, G ) == 0 ) {
       base = ( uint64_t ) e2->modBaseAddr;
@@ -126,7 +125,6 @@ int main() {
   std::wcout << std::hex;
   proc = OpenProcess( PROCESS_ALL_ACCESS, 0, pid );
   uint64_t D = 0;
-  //read( base, &D );
 
   CMEM temp { };
 
@@ -195,6 +193,8 @@ int main() {
       continue;
 
     uint32_t car = read<uint32_t>( ptr );
+    if( car == 0 )
+      continue;
     read( car + maxRPM, &MAXRPM );
     read( car + rpmOffset, &E );
     if( E.EngineState == 1 ) {
