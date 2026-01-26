@@ -20,9 +20,9 @@ const wchar_t * G = L"LFS.exe";
 uint64_t pid = 0;
 HANDLE proc;
 
-uint64_t maxRPM = 0x1CF4;
-uint64_t rpmOffset = 0x1D50;
-uint64_t engineOnOff = 0x1D60;
+uint64_t maxRPM = 0x1D24; /* +0x30 offset update on .8b25*/
+uint64_t rpmOffset = 0x1D80;
+uint64_t engineOnOff = 0x1D90;
 
 struct EDAT { // engine data
   float RPM; // what it is
